@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.aurorawebandsecurity.com/sitemap.xml
+Sitemap: https://aurorawebandsecurity.fr/sitemap.xml
