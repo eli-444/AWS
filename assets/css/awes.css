@@ -1,0 +1,331 @@
+/* ==========================================================================
+   Aurora Web & Sec — CSS global (awes.css)
+   Conçu pour être commun à toutes les pages
+   ========================================================================== */
+/* --- Aurora Web & Sec : Global font (centralized) --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
+/* Improve rendering across OS/browsers */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Global typography */
+:root {
+  --font-base: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  font-family: var(--font-base);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* create spacer to espace sections */
+.spacer{
+
+  height:100px;
+
+}
+
+/* Headings for consistent weights across pages */
+h1, h2, h3 { font-weight: 800; line-height: 1.1; }
+h4, h5, h6 { font-weight: 600; line-height: 1.2; }
+
+/* Buttons/menus for consistent look */
+.btn { font-weight: 600; }
+.nav .brand { font-weight: 800; letter-spacing: .5px; }
+
+/* -------- Variables thème -------- */
+:root{
+  --bg:#0a0b10;
+  --card:#10121a;
+  --muted:#a7b0c0;
+  --text:#e9ecf5;
+  --accent:#7c5cff;
+  --accent2:#00e0c7;
+  --radius:18px;
+
+  /* Échelle typographique & spacing */
+  --fs-xs:.85rem; --fs-sm:.95rem; --fs-md:1rem; --fs-lg:1.125rem; --fs-xl:1.4rem; --fs-2xl:2rem; --fs-3xl:clamp(36px,6vw,72px);
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:20px; --space-6:24px; --space-8:32px; --space-12:48px; --space-16:64px;
+}
+
+/* -------- Reset minimal -------- */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; min-height:100vh; overflow-x:hidden;
+  color:var(--text); background:
+  radial-gradient(1200px 600px at 10% 0%, rgba(124,92,255,.12) 0, transparent 60%),
+  radial-gradient(900px 500px at 90% 10%, rgba(0,224,199,.12) 0, transparent 60%), var(--bg);
+  font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
+  line-height:1.6; font-size:var(--fs-md);
+}
+img{max-width:100%; height:auto; display:block}
+svg{display:block}
+button,input,select,textarea{font:inherit; color:inherit; background:none}
+:focus{outline:none}
+:focus-visible{outline:2px solid var(--accent2); outline-offset:2px; border-radius:4px}
+
+/* -------- Typo de base -------- */
+h1,h2,h3{line-height:1.15; margin:0 0 var(--space-3)}
+h1{font-size:var(--fs-3xl)}
+h2{font-size:var(--fs-2xl)}
+h3{font-size:var(--fs-xl)}
+p{margin:0 0 var(--space-3); color:var(--muted)}
+.lead{color:var(--muted); font-size:var(--fs-lg); max-width:72ch}
+
+/* -------- Layout & helpers -------- */
+.container{max-width:1100px; margin:0 auto; padding:0 var(--space-5)}
+section{padding:var(--space-16) 0}
+.section-compact{padding:var(--space-12) 0}
+.stack > * + *{margin-top:var(--space-4)}
+.center{text-align:center}
+.hide{display:none !important}
+.visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* -------- Skip link (a11y) -------- */
+.skip-link{
+  position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
+}
+.skip-link:focus{
+  left:16px; top:16px; width:auto; height:auto; padding:10px 14px;
+  background:#10121a; color:#fff; border-radius:10px; outline:2px solid var(--accent2); z-index:1001;
+}
+
+/* -------- Barre de progression scroll -------- */
+.progress{
+  position:fixed; inset:0 0 auto 0; height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  transform-origin:0 50%; transform:scaleX(0); z-index:999;
+}
+
+/* -------- Header / Nav -------- */
+.nav{
+  position:sticky; top:0; z-index:998;
+  backdrop-filter:saturate(160%) blur(8px);
+  background:rgba(10,11,16,.5);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;min-height:64px}
+.brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--text);font-weight:800;letter-spacing:.5px}
+.brand .dot{width:10px;height:10px;border-radius:50%;background:conic-gradient(from 0deg,var(--accent),var(--accent2));box-shadow:0 0 18px rgba(124,92,255,.6)}
+.menu{display:flex;align-items:center;gap:18px}
+.menu a{color:var(--text);text-decoration:none;opacity:.85}
+.menu a:hover{opacity:1}
+
+/* Dropdown */
+.dropdown{position:relative}
+.dropdown-btn{
+  display:flex;align-items:center;gap:.45rem;background:transparent;
+  border:1px solid rgba(255,255,255,.08);padding:.5rem .75rem;border-radius:999px;
+  color:var(--text);cursor:pointer
+}
+.chev{transition:transform .2s ease}
+.dropdown[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.dropdown-menu{
+  position:absolute;right:0;top:calc(100% + 10px);min-width:220px;background:var(--card);
+  border:1px solid rgba(255,255,255,.08);border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.35);
+  padding:8px;display:none
+}
+.dropdown[aria-expanded="true"] .dropdown-menu{display:block}
+.dropdown-menu a{display:block;padding:10px;border-radius:10px}
+.dropdown-menu a:hover{background:rgba(255,255,255,.06)}
+
+/* -------- Hero -------- */
+.hero{padding:120px 0 100px}
+.gradient{background:linear-gradient(90deg,var(--accent) 0%, var(--accent2) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cta{display:flex;gap:12px;margin-top:26px}
+
+/* -------- Boutons -------- */
+.btn{
+  appearance:none; border:0; border-radius:999px; padding:12px 18px; font-weight:600; cursor:pointer;
+  color:#0a0b10; background:linear-gradient(90deg,var(--accent),var(--accent2));
+  box-shadow:0 10px 24px rgba(124,92,255,.35); text-decoration:none; display:inline-flex; align-items:center; justify-content:center;
+}
+.btn:hover{filter:saturate(110%)}
+.btn:active{transform:translateY(1px)}
+.btn.alt{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.12);box-shadow:none}
+
+/* -------- Cards & grid -------- */
+.grid{display:grid;grid-template-columns:1fr;gap:20px}
+@media(min-width:860px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--radius);
+  padding:22px;
+}
+
+/* -------- Trust / logos -------- */
+.logo-row{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:22px}
+@media(min-width:680px){.logo-row{grid-template-columns:repeat(5,1fr)}}
+.logo{
+  display:flex;align-items:center;justify-content:center;height:90px;border-radius:14px;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);
+  padding:10px 14px;text-decoration:none;transition:transform .18s ease, background .18s ease, border-color .18s ease
+}
+.logo:hover{transform:translateY(-2px);background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14)}
+.logo img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+/* ===== Noms dynamiques (sans logos) ===== */
+.name-tile{
+  height: 90px;                /* même gabarit que les logos pour l’alignement */
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+  padding: 10px 14px;
+  transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.name-tile:hover{
+  transform: translateY(-2px);
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.14);
+  box-shadow: 0 8px 22px rgba(0,0,0,.25);
+}
+
+.name-anim{
+  font-weight: 800;
+  letter-spacing: .6px;
+  font-size: clamp(14px, 2.6vw, 20px);
+  line-height: 1;
+  /* texte en dégradé animé */
+  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent));
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: nameShift 6s linear infinite;
+  text-transform: uppercase;   /* optionnel, pour un rendu “badge” */
+}
+
+@keyframes nameShift {
+  0%   { background-position:   0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+/* -------- Formulaires -------- */
+.form{display:grid;gap:14px;max-width:760px}
+.input,.textarea,select{
+  width:100%; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.1);
+  color:var(--text); border-radius:12px; padding:12px 14px; outline:none;
+}
+.input::placeholder,.textarea::placeholder{color:#9aa3b5}
+.textarea{min-height:150px;resize:vertical}
+.label{font-size:.9rem;color:var(--muted)}
+.help{font-size:var(--fs-sm); color:var(--muted)}
+.form .row{display:grid; gap:12px}
+@media(min-width:680px){.form .row{grid-template-columns:1fr 1fr}}
+
+/* États d’erreur/succès (utiliser .is-error / .is-valid sur .input/.textarea) */
+.is-error{border-color:#ff6b6b !important; box-shadow:0 0 0 3px rgba(255,107,107,.15)}
+.is-valid{border-color:#2ecc71 !important; box-shadow:0 0 0 3px rgba(46,204,113,.15)}
+
+/* -------- Liens modernes (global) -------- */
+a{color:var(--text);text-decoration:none;transition:color .2s ease, opacity .2s ease}
+a:visited{color:var(--text)}
+a:not(.btn):not(.brand):not(.logo):not(.dropdown-btn):not(.menu a){
+  position:relative; padding-bottom:2px;
+  background-image:linear-gradient(90deg,var(--accent),var(--accent2));
+  background-size:0 2px; background-position:0 100%; background-repeat:no-repeat;
+}
+a:hover:not(.btn):not(.brand):not(.logo):not(.dropdown-btn):not(.menu a){
+  background-size:100% 2px; color:#fff;
+}
+footer nav a{color:var(--muted); opacity:.9; margin:0 .25rem}
+footer nav a:hover{color:var(--text); opacity:1}
+
+/* -------- Footer -------- */
+footer{padding:40px 0; color:var(--muted); border-top:1px solid rgba(255,255,255,.08)}
+
+/* -------- Fond animé global -------- */
+.shapes{position:fixed; inset:0; pointer-events:none; z-index:-1; overflow:hidden}
+.blob{position:absolute; filter:blur(40px); opacity:.45; mix-blend:screen}
+.b1{width:340px;height:340px;background:radial-gradient(circle at 30% 30%, rgba(124,92,255,.7), transparent 60%);left:-80px;top:-60px;animation:float1 10s ease-in-out infinite}
+.b2{width:420px;height:420px;background:radial-gradient(circle at 70% 40%, rgba(0,224,199,.7), transparent 60%);right:-120px;top:120px;animation:float2 12s ease-in-out infinite}
+.b3{width:300px;height:300px;background:radial-gradient(circle at 50% 60%, rgba(255,255,255,.12), transparent 60%);left:40%;bottom:-120px;animation:float3 14s ease-in-out infinite}
+@keyframes float1{0%,100%{transform:translateY(0)}50%{transform:translateY(25px)}}
+@keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(-30px)}}
+@keyframes float3{0%,100%{transform:translateY(0)}50%{transform:translateY(35px)}}
+
+/* -------- Reveal on scroll -------- */
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease}
+.reveal.visible{opacity:1; transform:none}
+
+/* -------- Cookie banner -------- */
+#cookie-banner{
+  position:fixed; left:16px; right:16px; bottom:16px; z-index:1000; background:var(--card);
+  border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:14px; display:none
+}
+#cookie-banner p{margin:0 0 10px; color:#ccd2e0}
+#cookie-banner .actions{display:flex; gap:8px; flex-wrap:wrap}
+#cookie-banner button{border:0; border-radius:999px; padding:10px 14px; font-weight:600; cursor:pointer}
+#btn-accept{background:linear-gradient(90deg,var(--accent),var(--accent2)); color:#0a0b10}
+#btn-decline{background:transparent; color:#e9ecf5; border:1px solid rgba(255,255,255,.2)}
+
+/* -------- Utilitaires espacement -------- */
+.mt-0{margin-top:0!important} .mt-2{margin-top:var(--space-2)!important} .mt-4{margin-top:var(--space-4)!important} .mt-8{margin-top:var(--space-8)!important}
+.mb-0{margin-bottom:0!important} .mb-2{margin-bottom:var(--space-2)!important} .mb-4{margin-bottom:var(--space-4)!important} .mb-8{margin-bottom:var(--space-8)!important}
+.pt-0{padding-top:0!important} .pt-8{padding-top:var(--space-8)!important}
+.pb-0{padding-bottom:0!important} .pb-8{padding-bottom:var(--space-8)!important}
+
+/* -------- Réduction des animations -------- */
+@media (prefers-reduced-motion: reduce){
+  .blob,.reveal{animation:none !important; transition:none !important}
+}
+
+/* -------- Imprimable -------- */
+@media print{
+  .nav, .progress, #cookie-banner, .shapes{display:none !important}
+  body{background:#fff; color:#000}
+  a{color:#000; background-image:none}
+}
+/* ===== Marquee (défilement horizontal infini) ===== */
+.marquee{
+  position: relative;
+  overflow: hidden;
+  /* léger fondu aux bords pour un rendu + propre */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+  margin-top: var(--space-4);
+}
+
+.marquee-track{
+  display: inline-flex;
+  align-items: stretch;
+  gap: 16px;
+  /* On met 2 bandes à la suite (dupliquées dans le HTML) et on les translate en boucle */
+  animation: marquee-slide 28s linear infinite;
+  will-change: transform;
+  padding: 6px 0; /* un peu d’air vertical */
+}
+
+/* vitesse au survol/focus : pause pour accessibilité et confort */
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track{
+  animation-play-state: paused;
+}
+
+/* Les tuiles (réutilise ton style .logo + .name-tile existant) */
+.marquee .name-tile{
+  min-width: clamp(220px, 30vw, 360px); /* largeur mini de chaque “carte” */
+  height: 90px;
+}
+
+/* Animation : translateX sur 50% (puisqu’on duplique la liste) */
+@keyframes marquee-slide{
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Réduction des animations : on laisse le scroll manuel */
+@media (prefers-reduced-motion: reduce){
+  .marquee-track{ animation: none; }
+}
+
+/* Titre centré : tu as déjà .center dans awes.css, mais on uniformise */
+#trust > h2.center{ text-align: center; }
