@@ -240,7 +240,7 @@ footer nav a{color:var(--muted); opacity:.9; margin:0 .25rem}
 footer nav a:hover{color:var(--text); opacity:1}
 
 /* -------- Footer -------- */
-footer{padding:40px 0; color:var(--muted); border-top:1px solid rgba(255,255,255,.08)}
+footer{padding:40px 0; color:var(--muted);margin-top: 130px; border-top:1px solid rgba(255,255,255,.08)}
 
 /* -------- Fond animé global -------- */
 .shapes{position:fixed; inset:0; pointer-events:none; z-index:-1; overflow:hidden}
