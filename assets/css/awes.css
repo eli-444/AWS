@@ -44,11 +44,17 @@ h4, h5, h6 { font-weight: 600; line-height: 1.2; }
   --card:#10121a;
   --muted:#a7b0c0;
   --text:#e9ecf5;
-  --accent:#7c5cff;
-  --accent2:#00e0c7;
+
+  /* Nouveau thème */
+  --accent:#ff7a18;
+  --accent2:#020083;
+
+
+  --accent-rgb: 255 122 24; /* #ff7a18 */
+  --accent2-rgb: 2 0 131;   /* #020083 */
   --radius:18px;
 
-  /* Échelle typographique & spacing */
+  /* Échelle typographique & spacing (inchangés) */
   --fs-xs:.85rem; --fs-sm:.95rem; --fs-md:1rem; --fs-lg:1.125rem; --fs-xl:1.4rem; --fs-2xl:2rem; --fs-3xl:clamp(36px,6vw,72px);
   --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:20px; --space-6:24px; --space-8:32px; --space-12:48px; --space-16:64px;
 }
@@ -58,9 +64,11 @@ h4, h5, h6 { font-weight: 600; line-height: 1.2; }
 html{scroll-behavior:smooth}
 body{
   margin:0; min-height:100vh; overflow-x:hidden;
-  color:var(--text); background:
-  radial-gradient(1200px 600px at 10% 0%, rgba(124,92,255,.12) 0, transparent 60%),
-  radial-gradient(900px 500px at 90% 10%, rgba(0,224,199,.12) 0, transparent 60%), var(--bg);
+  color:var(--text);
+  background:
+    radial-gradient(1200px 600px at 10% 0%, rgba(255,122,24,.12) 0, transparent 60%),  /* orange */
+    radial-gradient(900px 500px at 90% 10%, rgba(255, 0, 255, 0.12) 0, transparent 60%), /* blanc doux */
+    var(--bg);
   font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
   line-height:1.6; font-size:var(--fs-md);
 }
@@ -112,7 +120,7 @@ section{padding:var(--space-16) 0}
 }
 .nav-inner{display:flex;align-items:center;justify-content:space-between;min-height:64px}
 .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--text);font-weight:800;letter-spacing:.5px}
-.brand .dot{width:10px;height:10px;border-radius:50%;background:conic-gradient(from 0deg,var(--accent),var(--accent2));box-shadow:0 0 18px rgba(124,92,255,.6)}
+.brand .dot{width:10px;height:10px;border-radius:50%;background:conic-gradient(from 0deg,var(--accent),var(--accent2));box-shadow:0 0 10px rgba(255,122,24,.6)}
 .menu{display:flex;align-items:center;gap:18px}
 .menu a{color:var(--text);text-decoration:none;opacity:.85}
 .menu a:hover{opacity:1}
@@ -144,11 +152,65 @@ section{padding:var(--space-16) 0}
 .btn{
   appearance:none; border:0; border-radius:999px; padding:12px 18px; font-weight:600; cursor:pointer;
   color:#0a0b10; background:linear-gradient(90deg,var(--accent),var(--accent2));
-  box-shadow:0 10px 24px rgba(124,92,255,.35); text-decoration:none; display:inline-flex; align-items:center; justify-content:center;
+  position: relative; z-index: 0;
+  /* ombre neutre (discrète) pour l’élévation */
+  box-shadow: 0 6px 14px rgba(0,0,0,.25);
+  text-decoration:none; display:inline-flex; align-items:center; justify-content:center;
 }
-.btn:hover{filter:saturate(110%)}
-.btn:active{transform:translateY(1px)}
-.btn.alt{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.12);box-shadow:none}
+
+/* Halos latéraux : gauche = orange, droite = bleu (#020083) */
+.btn::before,
+.btn::after{
+  content:"";
+  position:absolute;
+  top:-8px; bottom:-8px;             /* dépasse un peu pour un glow doux */
+  width:56%;                          /* couvre ~la moitié du bouton (+ marge) */
+  border-radius: inherit;
+  pointer-events:none;
+  filter: blur(18px);
+  opacity:.75;
+  z-index:-1;
+}
+
+/* GLOW ORANGE à GAUCHE */
+.btn::before{
+  left:-8px;                          /* déborde à gauche */
+  background:
+    radial-gradient(85% 120% at left center,
+      rgba(255,122,24,.65) 0%,
+      rgba(255,122,24,.45) 40%,
+      transparent 70%);
+}
+
+/* GLOW BLEU à DROITE */
+.btn::after{
+  right:-8px;                         /* déborde à droite */
+  background:
+    radial-gradient(85% 120% at right center,
+      rgba(2,0,131,.60) 0%,
+      rgba(2,0,131,.45) 40%,
+      transparent 70%);
+}
+
+/* Interactions */
+.btn:hover{
+  filter:saturate(110%);
+}
+.btn:hover::before,
+.btn:hover::after{
+  opacity:.9; filter: blur(20px);
+}
+.btn:active{ transform: translateY(1px); }
+.btn:active::before,
+.btn:active::after{ filter: blur(16px); opacity:.7; }
+
+/* Variante secondaire inchangée */
+.btn.alt{
+  background:transparent; color:var(--text);
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:none;
+}
+
 
 /* -------- Cards & grid -------- */
 .grid{display:grid;grid-template-columns:1fr;gap:20px}
@@ -159,6 +221,57 @@ section{padding:var(--space-16) 0}
   border-radius:var(--radius);
   padding:22px;
 }
+/* Carte “feature” façon modèle */
+.feature{
+  position: relative;
+  padding: 24px;
+  border-radius: 18px; /* déjà dans .card via --radius, on renforce ici si besoin */
+}
+
+/* Pastille d’icône circulaire en dégradé (accent → accent2) */
+.icon-badge{
+  width: 44px; height: 44px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: grid; place-items: center;
+  color: white;
+  margin-bottom: 12px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.25);
+  /* finitions proches du screenshot */
+}
+
+/* Titre plus présent, comme sur le modèle */
+.feature h3{
+  margin: 0 0 8px;
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--text);
+}
+
+/* Paragraphe d’intro plus doux */
+.feature .muted{ color: var(--muted); margin: 0 0 8px; }
+
+/* Liste à puces nettes, espacées */
+.bullets{
+  list-style: disc;
+  padding-left: 1.2rem;
+  margin: 0;
+  color: var(--muted);
+}
+.bullets li + li{ margin-top: 6px; }
+
+/* Optionnel : contour subtile comme sur la capture */
+.feature{
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+}
+.brand-logo{
+  width:28px; height:28px;
+  border-radius:50%;
+  object-fit:cover;     /* au cas où l’image ne soit pas parfaitement carrée */
+  display:block;
+}
+@media (min-width:768px){ .brand-logo{ width:32px; height:32px; } }
 
 /* -------- Trust / logos -------- */
 .logo-row{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:22px}
@@ -245,8 +358,8 @@ footer{padding:40px 0; color:var(--muted);margin-top: 130px; border-top:1px soli
 /* -------- Fond animé global -------- */
 .shapes{position:fixed; inset:0; pointer-events:none; z-index:-1; overflow:hidden}
 .blob{position:absolute; filter:blur(40px); opacity:.45; mix-blend:screen}
-.b1{width:340px;height:340px;background:radial-gradient(circle at 30% 30%, rgba(124,92,255,.7), transparent 60%);left:-80px;top:-60px;animation:float1 10s ease-in-out infinite}
-.b2{width:420px;height:420px;background:radial-gradient(circle at 70% 40%, rgba(0,224,199,.7), transparent 60%);right:-120px;top:120px;animation:float2 12s ease-in-out infinite}
+.b1{width:340px;height:340px;background:radial-gradient(circle at 30% 30%, rgba(255,122,24,.7), transparent 60%);left:-80px;top:-60px;animation:float1 10s ease-in-out infinite}
+.b2{width:420px;height:420px;background:radial-gradient(circle at 70% 40%, rgba(255,255,255,.35), transparent 60%);right:-120px;top:120px;animation:float2 12s ease-in-out infinite}
 .b3{width:300px;height:300px;background:radial-gradient(circle at 50% 60%, rgba(255,255,255,.12), transparent 60%);left:40%;bottom:-120px;animation:float3 14s ease-in-out infinite}
 @keyframes float1{0%,100%{transform:translateY(0)}50%{transform:translateY(25px)}}
 @keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(-30px)}}
