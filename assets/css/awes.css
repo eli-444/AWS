@@ -239,7 +239,7 @@ section{padding:var(--space-16) 0}
   border: 1px solid rgba(255,255,255,.08);
 }
 .brand-logo{
-  width:28px; height:28px;
+  width:28px;
   border-radius:50%;
   object-fit:cover;     /* au cas où l’image ne soit pas parfaitement carrée */
   display:block;
