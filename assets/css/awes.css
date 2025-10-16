@@ -40,18 +40,13 @@ h4, h5, h6 { font-weight: 600; line-height: 1.2; }
 
 /* -------- Variables thème -------- */
 :root{
-  --bg:#0a0b10;
-  --card:#10121a;
-  --muted:#a7b0c0;
-  --text:#e9ecf5;
+   --bg:#0a0d14; --card:#0f1522;
+  --text:#eaf1ff; --muted:#9aa6bc;
+  --accent:#0fe3b1;           /* mint/cyan */
+  --accent2:#3ea7ff;
 
-  /* Nouveau thème */
-  --accent:#ff7a18;
-  --accent2:#020083;
-
-
-  --accent-rgb: 255 122 24; /* #ff7a18 */
-  --accent2-rgb: 2 0 131;   /* #020083 */
+  --accent-rgb: 15 227 177; /* #0fe3b1 */
+  --accent2-rgb: 62 167 255;   /* #3ea7ff */
   --radius:18px;
 
   /* Échelle typographique & spacing (inchangés) */
@@ -148,68 +143,46 @@ section{padding:var(--space-16) 0}
 .gradient{background:linear-gradient(90deg,var(--accent) 0%, var(--accent2) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .cta{display:flex;gap:12px;margin-top:26px}
 
-/* -------- Boutons -------- */
+/* ===================== BTN – Glow latéral (accent à gauche, accent2 à droite) ===================== */
 .btn{
   appearance:none; border:0; border-radius:999px; padding:12px 18px; font-weight:600; cursor:pointer;
-  color:#0a0b10; background:linear-gradient(90deg,var(--accent),var(--accent2));
-  position: relative; z-index: 0;
-  /* ombre neutre (discrète) pour l’élévation */
-  box-shadow: 0 6px 14px rgba(0,0,0,.25);
-  text-decoration:none; display:inline-flex; align-items:center; justify-content:center;
+  color:#0a0d14; background:linear-gradient(90deg, var(--accent), var(--accent2));
+  position:relative; z-index:0; display:inline-flex; align-items:center; justify-content:center;
+  /* ombre neutre d’élévation */
+  box-shadow:0 6px 14px rgba(0,0,0,.25);
+  text-decoration:none;
 }
-
-/* Halos latéraux : gauche = orange, droite = bleu (#020083) */
+/* halos latéralisés */
 .btn::before,
 .btn::after{
   content:"";
-  position:absolute;
-  top:-8px; bottom:-8px;             /* dépasse un peu pour un glow doux */
-  width:56%;                          /* couvre ~la moitié du bouton (+ marge) */
-  border-radius: inherit;
-  pointer-events:none;
-  filter: blur(18px);
-  opacity:.75;
-  z-index:-1;
+  position:absolute; top:-8px; bottom:-8px; width:56%;
+  border-radius:inherit; pointer-events:none; z-index:-1;
+  filter:blur(18px); opacity:.75;
 }
-
-/* GLOW ORANGE à GAUCHE */
+/* gauche = mint (#0fe3b1) */
 .btn::before{
-  left:-8px;                          /* déborde à gauche */
+  left:-8px;
   background:
     radial-gradient(85% 120% at left center,
-      rgba(255,122,24,.65) 0%,
-      rgba(255,122,24,.45) 40%,
+      rgb(var(--accent-rgb) / .65) 0%,
+      rgb(var(--accent-rgb) / .45) 40%,
       transparent 70%);
 }
-
-/* GLOW BLEU à DROITE */
+/* droite = bleu (#3ea7ff) */
 .btn::after{
-  right:-8px;                         /* déborde à droite */
+  right:-8px;
   background:
     radial-gradient(85% 120% at right center,
-      rgba(2,0,131,.60) 0%,
-      rgba(2,0,131,.45) 40%,
+      rgb(var(--accent2-rgb) / .60) 0%,
+      rgb(var(--accent2-rgb) / .45) 40%,
       transparent 70%);
 }
+.btn:hover{ filter:saturate(110%); }
+.btn:hover::before, .btn:hover::after{ opacity:.9; filter:blur(20px); }
+.btn:active{ transform:translateY(1px); }
+.btn:active::before, .btn:active::after{ opacity:.7; filter:blur(16px); }
 
-/* Interactions */
-.btn:hover{
-  filter:saturate(110%);
-}
-.btn:hover::before,
-.btn:hover::after{
-  opacity:.9; filter: blur(20px);
-}
-.btn:active{ transform: translateY(1px); }
-.btn:active::before,
-.btn:active::after{ filter: blur(16px); opacity:.7; }
-
-/* Variante secondaire inchangée */
-.btn.alt{
-  background:transparent; color:var(--text);
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow:none;
-}
 
 
 /* -------- Cards & grid -------- */
@@ -358,9 +331,27 @@ footer{padding:40px 0; color:var(--muted);margin-top: 130px; border-top:1px soli
 /* -------- Fond animé global -------- */
 .shapes{position:fixed; inset:0; pointer-events:none; z-index:-1; overflow:hidden}
 .blob{position:absolute; filter:blur(40px); opacity:.45; mix-blend:screen}
-.b1{width:340px;height:340px;background:radial-gradient(circle at 30% 30%, rgba(255,122,24,.7), transparent 60%);left:-80px;top:-60px;animation:float1 10s ease-in-out infinite}
-.b2{width:420px;height:420px;background:radial-gradient(circle at 70% 40%, rgba(255,255,255,.35), transparent 60%);right:-120px;top:120px;animation:float2 12s ease-in-out infinite}
-.b3{width:300px;height:300px;background:radial-gradient(circle at 50% 60%, rgba(255,255,255,.12), transparent 60%);left:40%;bottom:-120px;animation:float3 14s ease-in-out infinite}
+.b1{
+  width:340px; height:340px;
+  background: radial-gradient(circle at 30% 30%, rgb(var(--accent-rgb) / .70), transparent 60%);
+  left:-80px; top:-60px;
+  animation: float1 10s ease-in-out infinite;
+}
+
+.b2{
+  width:420px; height:420px;
+  background: radial-gradient(circle at 70% 40%, rgb(var(--accent2-rgb) / .70), transparent 60%);
+  right:-120px; top:120px;
+  animation: float2 12s ease-in-out infinite;
+}
+
+/* b3 : léger halo neutre pour profondeur (reste subtil) */
+.b3{
+  width:300px; height:300px;
+  background: radial-gradient(circle at 50% 60%, rgba(255,255,255,.10), transparent 60%);
+  left:40%; bottom:-120px;
+  animation: float3 14s ease-in-out infinite;
+}
 @keyframes float1{0%,100%{transform:translateY(0)}50%{transform:translateY(25px)}}
 @keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(-30px)}}
 @keyframes float3{0%,100%{transform:translateY(0)}50%{transform:translateY(35px)}}
